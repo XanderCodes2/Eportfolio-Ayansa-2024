@@ -1,23 +1,32 @@
-// ... (previous JavaScript code)
 
-commentForm.addEventListener('submit', function(event) {
-  event.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+  const commentForm = document.getElementById('commentForm');
+  const nameInput = document.getElementById('nameInput');
+  const commentInput = document.getElementById('commentInput');
+  const commentsList = document.getElementById('commentsList');
 
-  const name = nameInput.value;
-  const comment = commentInput.value;
-  const currentDate = new Date(); // Get current date and time
+  commentForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const name = nameInput.value;
+    const comment = commentInput.value;
 
-  // Adjust to the user's timezone
-  const userTime = currentDate.toLocaleString(undefined, {
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    if (name.trim() === '' || comment.trim() === '') {
+      alert('Please enter your name and comment.');
+      return;
+    }
+
+    const commentItem = document.createElement('div');
+    commentItem.classList.add('comment-item');
+    commentItem.innerHTML = `
+      <strong>${name}</strong>
+      <p>${comment}</p>
+    `;
+    commentsList.appendChild(commentItem);
+
+
+    nameInput.value = '';
+    commentInput.value = '';
   });
-
-  const newComment = document.createElement('div');
-  newComment.classList.add('comment');
-  newComment.innerHTML = `<p><strong>${name}</strong> - ${userTime}</p><p>${comment}</p>`;
-
-  commentsList.appendChild(newComment); // Append the new comment to commentsList
-
-  nameInput.value = '';
-  commentInput.value = '';
+});
 });
